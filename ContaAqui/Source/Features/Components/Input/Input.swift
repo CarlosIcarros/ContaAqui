@@ -10,6 +10,7 @@ import UIKit
 
 class Input: UIView, UITextFieldDelegate {
     private var isEmailField = false
+    private var isShowPassword: Bool = false
     
     init(placeHolder: String) {
         super.init(frame: .zero)
@@ -18,10 +19,26 @@ class Input: UIView, UITextFieldDelegate {
         
         if placeHolder.lowercased().contains("e-mail") {
             isEmailField = true
-        } else {
-            print("n foi \(placeHolder.lowercased())")
         }
         
+       setupView()
+    }
+    
+    init(passwordLabel: String) {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = passwordLabel
+        textField.isSecureTextEntry = true
+        
+        togglePasswordButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
+        // Criar uma view que vai envolver o botão e dar padding
+        let eyeContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 24)) // largura maior que o botão
+        togglePasswordButton.frame = CGRect(x: 8, y: 0, width: 24, height: 24) // padding de 8 à esquerda
+        eyeContainer.addSubview(togglePasswordButton)
+
+        // Adicionar ao textField
+        textField.rightView = eyeContainer
+        textField.rightViewMode = .always
        setupView()
     }
     
@@ -47,6 +64,23 @@ class Input: UIView, UITextFieldDelegate {
         textField.rightViewMode = .always
         return textField
     }()
+    
+    private let togglePasswordButton: UIButton = {
+        let button = UIButton(type: .custom)
+        let image = UIImage(systemName: "eye.fill") // ícone do SF Symbols
+        button.setImage(image, for: .normal)
+        button.tintColor = .gray
+        button.frame = CGRect(x: -20, y: 0, width: 20, height: 20)
+        return button
+    }()
+    
+    @objc
+    private func togglePasswordVisibility() {
+        textField.isSecureTextEntry.toggle()
+        
+        let imageName = textField.isSecureTextEntry ? "eye.fill" : "eye.slash.fill"
+        togglePasswordButton.setImage(UIImage(systemName: imageName), for: .normal)
+    }
     
     private func setupView() {
         textField.delegate = self

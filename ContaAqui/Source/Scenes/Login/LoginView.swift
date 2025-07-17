@@ -20,6 +20,13 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public let scrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.backgroundColor = .white
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        return scroll
+    }()
+    
     let background: UIView = {
        let view = UIView()
         view.backgroundColor = .white
@@ -73,8 +80,8 @@ class LoginView: UIView {
     }()
     
     let passwordTextField: Input = {
-        let textField = Input(placeHolder: "Senha")
-      
+        let textField = Input(passwordLabel: "Senha")
+        
         textField.translatesAutoresizingMaskIntoConstraints = false
         
         return textField
@@ -93,7 +100,6 @@ class LoginView: UIView {
            button.setTitle("Entrar", for: .normal)
         button.backgroundColor = Colors.magenta
            button.layer.cornerRadius = 8
-//           button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
            button.titleLabel?.font = Text.buttonMd
            button.tintColor = .white
            button.translatesAutoresizingMaskIntoConstraints = false
@@ -101,7 +107,9 @@ class LoginView: UIView {
        }()
     
     private func setupView() {
-        addSubview(background)
+        addSubview(scrollView)
+        scrollView.addSubview(background)
+    
         background.addSubview(backgroundImage)
         background.addSubview(titleLabel)
         background.addSubview(titleDescription)
@@ -116,47 +124,59 @@ class LoginView: UIView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            background.topAnchor.constraint(equalTo: topAnchor),
-            background.bottomAnchor.constraint(equalTo: bottomAnchor),
-            background.leadingAnchor.constraint(equalTo: leadingAnchor),
-            background.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            backgroundImage.topAnchor.constraint(equalTo: background.safeAreaLayoutGuide.topAnchor),
-            backgroundImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            backgroundImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            // ScrollView ocupa toda a tela
+            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+                scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+
+                background.topAnchor.constraint(equalTo: scrollView.topAnchor),
+                background.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+                background.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+                background.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+
+                background.widthAnchor.constraint(equalTo: scrollView.widthAnchor), // 🔥 Ponto-chave!
+
+            // Conteúdo
+            backgroundImage.topAnchor.constraint(equalTo: background.topAnchor, constant: 24),
+            backgroundImage.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 24),
+            backgroundImage.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -24),
             backgroundImage.heightAnchor.constraint(equalToConstant: 366),
-            
+
             titleLabel.topAnchor.constraint(equalTo: backgroundImage.bottomAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 24),
-            
+
             titleDescription.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             titleDescription.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 24),
-            
+
             nameTextField.topAnchor.constraint(equalTo: titleDescription.bottomAnchor, constant: 28),
-            nameTextField.leadingAnchor.constraint(equalTo: titleDescription.leadingAnchor),
+            nameTextField.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 24),
             nameTextField.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -24),
             nameTextField.heightAnchor.constraint(equalToConstant: 48),
-            
+
             emailTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 22),
-            emailTextField.leadingAnchor.constraint(equalTo: titleDescription.leadingAnchor),
-            emailTextField.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -24),
+            emailTextField.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            emailTextField.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
             emailTextField.heightAnchor.constraint(equalToConstant: 48),
-            
+
             passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 22),
-            passwordTextField.leadingAnchor.constraint(equalTo: titleDescription.leadingAnchor),
-            passwordTextField.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -24),
+            passwordTextField.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            passwordTextField.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
             passwordTextField.heightAnchor.constraint(equalToConstant: 48),
-            
+
             divider.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 24),
-            divider.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor),
-            divider.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
+            divider.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
             divider.heightAnchor.constraint(equalToConstant: 1),
-            
+
             loginButton.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 24),
-            loginButton.leadingAnchor.constraint(equalTo: divider.leadingAnchor),
-            loginButton.trailingAnchor.constraint(equalTo: divider.trailingAnchor),
-            loginButton.heightAnchor.constraint(equalToConstant: 48)
+            loginButton.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            loginButton.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
+            loginButton.heightAnchor.constraint(equalToConstant: 48),
+            loginButton.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -24)
+
         ])
     }
+
     
 }
