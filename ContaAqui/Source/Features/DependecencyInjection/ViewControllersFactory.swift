@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+final class ViewControllersFactory: ViewControllersFactoryProtocol {
+    func makeSpashViewController() -> SpashViewController {
+        let contentView = SpashView()
+        let viewController = SpashViewController(contentView: contentView)
+        return viewController
+    }
+    
+    
+}

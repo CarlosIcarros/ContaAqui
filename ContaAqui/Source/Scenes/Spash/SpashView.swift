@@ -37,7 +37,10 @@ class SpashView: UIView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            logoImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            logoImageView.widthAnchor.constraint(equalToConstant: 144),
+            logoImageView.heightAnchor.constraint(equalToConstant
+                                                  : 144)
         ])
     }
 }

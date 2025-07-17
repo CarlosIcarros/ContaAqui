@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol ViewControllersFactoryProtocol: AnyObject {
+    func makeSpashViewController() -> SpashViewController
+}

@@ -6,3 +6,20 @@
 //
 
 import Foundation
+import UIKit
+
+public struct Text {
+    static let titleLg = UIFont.systemFont(ofSize: 28, weight: .heavy)
+    static let titleMd = UIFont.systemFont(ofSize: 16, weight: .bold)
+    static let titleSm = UIFont.systemFont(ofSize: 14, weight: .regular)
+    static let titleXs = UIFont.systemFont(ofSize: 12, weight: .regular)
+    static let title2Xs = UIFont.systemFont(ofSize: 10, weight: .bold)
+    static let textSm = UIFont.systemFont(ofSize: 14, weight: .regular)
+    static let textXs = UIFont.systemFont(ofSize: 12, weight: .regular)
+    static let input = UIFont.systemFont(ofSize: 16, weight: .regular)
+    static let inputLineHeight: CGFloat = 24
+    static let buttonMd = UIFont.systemFont(ofSize: 16, weight: .bold)
+    static let buttonMdLineHeight: CGFloat = 24
+    static let buttonSm = UIFont.systemFont(ofSize: 14, weight: .bold)
+    static let buttonSmLineHeight: CGFloat = 20
+}

@@ -26,18 +26,20 @@ class SpashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        animateShow()
     }
     
     private func setupView() {
         self.view.addSubview(contentView)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         self.navigationController?.navigationBar.isHidden = true
         setGradientBackground(view: self.view)
         setupConstraints()
     }
     
     private func setGradientBackground(view: UIView) {
-        let colorTop =  Colors.green.cgColor
-        let colorBottom = Colors.magenta.cgColor
+        let colorTop =  Colors.gray700.cgColor
+        let colorBottom = Colors.gray600.cgColor
                     
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [colorTop, colorBottom]
@@ -52,8 +54,6 @@ class SpashViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        self.view.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -61,4 +61,27 @@ class SpashViewController: UIViewController {
             contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
+}
+
+
+extension SpashViewController {
+    private func animateShow() {
+        self.contentView.logoImageView.alpha = 0
+        self.contentView.logoImageView.transform = CGAffineTransform(translationX: 0, y: 0)
+        self.contentView.logoImageView.isHidden = false
+
+        UIView.animate(withDuration: 0.5, delay: 0.0, animations: {
+            self.contentView.logoImageView.alpha = 1.0 // Fade-in
+        }, completion: { [self] _ in
+                animateUp()
+            }
+        )
+    }
+    
+    private func animateUp() {
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut],animations: {
+            self.contentView.logoImageView.transform = CGAffineTransform(translationX: 0, y: -200)
+        })
+    }
+    
 }
