@@ -8,11 +8,15 @@
 import Foundation
 
 final class ViewControllersFactory: ViewControllersFactoryProtocol {
-    func makeSpashViewController() -> SpashViewController {
-        let contentView = SpashView()
-        let viewController = SpashViewController(contentView: contentView)
+    func makeLoginViewController() -> LoginViewController {
+        let contentView = LoginView()
+        let viewController = LoginViewController(contentView: contentView, flowDelegate: nil)
         return viewController
     }
     
-    
+    func makeSpashViewController(flowDelegate: SpashFlowDelegate) -> SpashViewController {
+        let contentView = SpashView()
+        let viewController = SpashViewController(contentView: contentView, flowDelegate: flowDelegate)
+        return viewController
+    }
 }

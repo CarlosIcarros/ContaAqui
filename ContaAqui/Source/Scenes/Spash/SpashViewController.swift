@@ -9,12 +9,12 @@ import Foundation
 import UIKit
 
 class SpashViewController: UIViewController {
-    
     let contentView: SpashView
+    public weak var flowDelegate: SpashFlowDelegate?
     
-    init(contentView: SpashView) {
+    init(contentView: SpashView,flowDelegate: SpashFlowDelegate) {
         self.contentView = contentView
-        
+        self.flowDelegate = flowDelegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -81,7 +81,8 @@ extension SpashViewController {
     private func animateUp() {
         UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut],animations: {
             self.contentView.logoImageView.transform = CGAffineTransform(translationX: 0, y: -200)
+        }, completion: {_ in 
+            self.flowDelegate?.navigateToHome()
         })
     }
-    
 }

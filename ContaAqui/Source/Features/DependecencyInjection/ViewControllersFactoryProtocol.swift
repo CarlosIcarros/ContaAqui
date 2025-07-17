@@ -8,5 +8,6 @@
 import Foundation
 
 protocol ViewControllersFactoryProtocol: AnyObject {
-    func makeSpashViewController() -> SpashViewController
+    func makeSpashViewController(flowDelegate: SpashFlowDelegate) -> SpashViewController
+    func makeLoginViewController() -> LoginViewController
 }

@@ -17,8 +17,15 @@ class ContaAquiFlowController {
     }
     
     func start() -> UINavigationController? {
-        let startViewController  = viewControllerFactory.makeSpashViewController()
+        let startViewController  = viewControllerFactory.makeSpashViewController(flowDelegate: self)
         self.navigationController = UINavigationController(rootViewController: startViewController)
         return navigationController
+    }
+}
+
+extension ContaAquiFlowController: SpashFlowDelegate {
+    func navigateToHome() {
+        let viewController = viewControllerFactory.makeLoginViewController()
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
