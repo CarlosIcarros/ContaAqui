@@ -162,7 +162,7 @@ class HomeView: UIView {
     }()
     
     private let usignLimit: LimitComponent = {
-        let limitComponent = LimitComponent(text: "Usado", subText: "R$ 0,00",  alignment: .justified)
+        let limitComponent = LimitComponent(text: "Usado", subText: "R$ 0,00",  alignment: .left)
 
         limitComponent.translatesAutoresizingMaskIntoConstraints = false
         return limitComponent
@@ -179,7 +179,7 @@ class HomeView: UIView {
     private let launchContainer: UIView = {
         let view = UIView()
         view.backgroundColor = Colors.gray100
-        
+        view.layer.cornerRadius = 8
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -197,13 +197,29 @@ class HomeView: UIView {
     private let launchValue: UILabel = {
         let label = UILabel()
         label.text = "0"
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.textAlignment = .center
+        label.textColor = Colors.gray600
+        label.backgroundColor = Colors.gray300
+        label.layer.cornerRadius = 10
+        
+        label.clipsToBounds = true
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
     
+    private let launchdivider: Divider = {
+        let view = Divider()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     private let launchImage: UIImageView = {
         let image = UIImageView()
+        image.image = UIImage(systemName: "text.document")
+        image.tintColor = Colors.gray500
         
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -213,8 +229,25 @@ class HomeView: UIView {
         let label = UILabel()
         label.text = "Você ainda não registrou despesas ou receitas neste mês"
         label.numberOfLines = 0
+        label.font = Text.textXs
+        label.textColor = Colors.gray500
         
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    let fabButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.tintColor = .white
+        button.backgroundColor = Colors.gray700
+        button.layer.cornerRadius = 24
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowOffset = CGSize(width: 0, height: 2)
+        button.layer.shadowRadius = 4
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     override init(frame: CGRect) {
@@ -246,6 +279,14 @@ class HomeView: UIView {
         containerBudget.addSubview(usignLimit)
         containerBudget.addSubview(availableLimit)
         
+        addSubview(launchContainer)
+        launchContainer.addSubview(launchText)
+        launchContainer.addSubview(launchValue)
+        launchContainer.addSubview(launchdivider)
+        launchContainer.addSubview(launchImage)
+        launchContainer.addSubview(launchDescription)
+        
+        addSubview(fabButton)
         setupConstraints()
         setupImageGesture()
     }
@@ -316,6 +357,38 @@ class HomeView: UIView {
             
             availableLimit.topAnchor.constraint(equalTo: limitButton.bottomAnchor, constant: 24),
             availableLimit.trailingAnchor.constraint(equalTo: containerBudget.trailingAnchor, constant: -24),
+            
+            launchContainer.topAnchor.constraint(equalTo: containerBudget.bottomAnchor, constant: 20),
+            launchContainer.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
+            launchContainer.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+            launchContainer.heightAnchor.constraint(equalToConstant: 130),
+            
+            launchText.topAnchor.constraint(equalTo: launchContainer.topAnchor, constant: 15),
+            launchText.leadingAnchor.constraint(equalTo: launchContainer.leadingAnchor, constant: 20),
+            
+            launchValue.topAnchor.constraint(equalTo: launchContainer.topAnchor, constant: 15),
+            launchValue.trailingAnchor.constraint(equalTo: launchContainer.trailingAnchor, constant: -16),
+            launchValue.heightAnchor.constraint(equalToConstant: 18),
+            launchValue.widthAnchor.constraint(equalToConstant: 24),
+            
+            launchdivider.topAnchor.constraint(equalTo: launchValue.bottomAnchor, constant: 12),
+            launchdivider.leadingAnchor.constraint(equalTo: launchContainer.leadingAnchor),
+            launchdivider.trailingAnchor.constraint(equalTo: launchContainer.trailingAnchor),
+            
+            launchImage.topAnchor.constraint(equalTo: launchdivider.bottomAnchor, constant: 20),
+            launchImage.leadingAnchor.constraint(equalTo: launchContainer.leadingAnchor, constant: 24),
+            launchImage.widthAnchor.constraint(equalToConstant: 32),
+            launchImage.heightAnchor.constraint(equalToConstant: 32),
+            
+            launchDescription.leadingAnchor.constraint(equalTo: launchImage.trailingAnchor, constant: 20),
+            launchDescription.topAnchor.constraint(equalTo: launchdivider.bottomAnchor, constant: 20),
+            launchDescription.trailingAnchor.constraint(equalTo: launchContainer.trailingAnchor, constant: -20),
+            
+            fabButton.widthAnchor.constraint(equalToConstant: 48),
+            fabButton.heightAnchor.constraint(equalToConstant: 48),
+            fabButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            fabButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -24)
         ])
     }
 }
+

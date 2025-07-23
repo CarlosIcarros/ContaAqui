@@ -50,10 +50,12 @@ class LimitComponent: UIView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             textLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            textLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             textLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             textLimit.topAnchor.constraint(equalTo: textLabel.bottomAnchor),
-            textLimit.trailingAnchor.constraint(equalTo: trailingAnchor)
+            textLimit.trailingAnchor.constraint(equalTo: trailingAnchor),
+            textLimit.leadingAnchor.constraint(equalTo: leadingAnchor),
         ])
     }
 }
