@@ -8,5 +8,6 @@
 import Foundation
 
 public protocol SpashFlowDelegate: AnyObject {
+    func navigateToLogin()
     func navigateToHome()
 }

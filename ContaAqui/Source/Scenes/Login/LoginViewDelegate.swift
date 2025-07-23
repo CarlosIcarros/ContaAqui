@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol LoginViewDelegate: AnyObject {
+    func sendLoginData(name: String, email: String, password: String)
+}

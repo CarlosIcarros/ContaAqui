@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import LocalAuthentication
 
 class SpashViewController: UIViewController {
     let contentView: SpashView
@@ -21,12 +22,23 @@ class SpashViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         animateShow()
+    }
+    
+    private func decideNavigationFlow() {
+        if let user = UserDefaultsManager.loadUser() {
+            if user.hasFaceIdEnabled {
+                authenticatedWithFaceID()
+            } else {
+                flowDelegate?.navigateToHome()
+            }
+        } else {
+            self.flowDelegate?.navigateToLogin()
+        }
     }
     
     private func setupView() {
@@ -82,7 +94,30 @@ extension SpashViewController {
         UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut],animations: {
             self.contentView.logoImageView.transform = CGAffineTransform(translationX: 0, y: -200)
         }, completion: {_ in 
-            self.flowDelegate?.navigateToHome()
+            self.decideNavigationFlow()
         })
+    }
+}
+
+// MARK: face id c onfiguration
+extension SpashViewController {
+    private func authenticatedWithFaceID() {
+        let context = LAContext()
+        var authError: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+            let reason = "Autentique-se para acessar o app"
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
+                DispatchQueue.main.async {
+                    if success {
+                        self.flowDelegate?.navigateToHome()
+                    } else {
+                        self.flowDelegate?.navigateToLogin()
+                    }
+                }
+            }
+        } else {
+            self.flowDelegate?.navigateToLogin()
+        }
     }
 }

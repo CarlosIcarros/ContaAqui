@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class LoginView: UIView {
-    public var delegate: LoginFlowDelegate?
+    public weak var delegate: LoginViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -87,24 +87,23 @@ class LoginView: UIView {
         return textField
     }()
     
-    let divider: UIView = {
-        let divider = UIView()
-        divider.backgroundColor = Colors.gray300
+    let divider: Divider = {
+        let divider = Divider()
         divider.translatesAutoresizingMaskIntoConstraints = false
-        
         return divider
     }()
     
-    private let loginButton: UIButton = {
-           let button = UIButton(type: .system)
-           button.setTitle("Entrar", for: .normal)
+    let loginButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Entrar", for: .normal)
         button.backgroundColor = Colors.magenta
-           button.layer.cornerRadius = 8
-           button.titleLabel?.font = Text.buttonMd
-           button.tintColor = .white
-           button.translatesAutoresizingMaskIntoConstraints = false
-           return button
-       }()
+        button.layer.cornerRadius = 8
+        button.titleLabel?.font = Text.buttonMd
+        button.tintColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
     
     private func setupView() {
         addSubview(scrollView)
@@ -126,16 +125,16 @@ class LoginView: UIView {
         NSLayoutConstraint.activate([
             // ScrollView ocupa toda a tela
             scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-                scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-                scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 
-                background.topAnchor.constraint(equalTo: scrollView.topAnchor),
-                background.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-                background.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-                background.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            background.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            background.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            background.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            background.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
 
-                background.widthAnchor.constraint(equalTo: scrollView.widthAnchor), // 🔥 Ponto-chave!
+            background.widthAnchor.constraint(equalTo: scrollView.widthAnchor), // 🔥 Ponto-chave!
 
             // Conteúdo
             backgroundImage.topAnchor.constraint(equalTo: background.topAnchor, constant: 24),
@@ -167,16 +166,13 @@ class LoginView: UIView {
             divider.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 24),
             divider.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
             divider.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
-            divider.heightAnchor.constraint(equalToConstant: 1),
 
             loginButton.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 24),
             loginButton.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
             loginButton.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
             loginButton.heightAnchor.constraint(equalToConstant: 48),
             loginButton.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -24)
-
         ])
     }
-
     
 }

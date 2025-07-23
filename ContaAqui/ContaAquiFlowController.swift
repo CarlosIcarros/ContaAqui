@@ -23,9 +23,30 @@ class ContaAquiFlowController {
     }
 }
 
+
+
+
 extension ContaAquiFlowController: SpashFlowDelegate {
-    func navigateToHome() {
-        let viewController = viewControllerFactory.makeLoginViewController()
-        self.navigationController?.pushViewController(viewController, animated: true)
+    func navigateToLogin() {
+        let viewController = viewControllerFactory.makeLoginViewController(flowDelegate: self)
+        self.navigationController?.setViewControllers([viewController], animated: true)
     }
+}
+
+
+extension ContaAquiFlowController: LoginFlowDelegate {
+    func navigateToHome() {
+        let viewController = viewControllerFactory.makeHomeViewController(flowDelegate: self)
+        
+        self.navigationController?.setViewControllers([viewController], animated: true)
+    }
+}
+
+extension ContaAquiFlowController: HomeFlowDelegate {
+    func logout() {
+        let viewController = viewControllerFactory.makeLoginViewController(flowDelegate: self)
+        self.navigationController?.setViewControllers([viewController], animated: true)
+    }
+    
+    
 }

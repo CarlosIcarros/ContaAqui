@@ -10,6 +10,7 @@
 		6A34D0012E2939A200696EE7 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6A34D0002E2939A200696EE7 /* FirebaseAnalytics */; };
 		6A34D0032E2939A200696EE7 /* FirebaseAnalyticsIdentitySupport in Frameworks */ = {isa = PBXBuildFile; productRef = 6A34D0022E2939A200696EE7 /* FirebaseAnalyticsIdentitySupport */; };
 		6A34D0052E2939A200696EE7 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6A34D0042E2939A200696EE7 /* FirebaseCore */; };
+		6A8EE3F92E2A8D3D00A0063D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6A8EE3F82E2A8D3D00A0063D /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 				6A34D0032E2939A200696EE7 /* FirebaseAnalyticsIdentitySupport in Frameworks */,
 				6A34D0052E2939A200696EE7 /* FirebaseCore in Frameworks */,
 				6A34D0012E2939A200696EE7 /* FirebaseAnalytics in Frameworks */,
+				6A8EE3F92E2A8D3D00A0063D /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +92,7 @@
 				6A34D0002E2939A200696EE7 /* FirebaseAnalytics */,
 				6A34D0022E2939A200696EE7 /* FirebaseAnalyticsIdentitySupport */,
 				6A34D0042E2939A200696EE7 /* FirebaseCore */,
+				6A8EE3F82E2A8D3D00A0063D /* FirebaseAuth */,
 			);
 			productName = ContaAqui;
 			productReference = 6AEEFB7A2E2842080058002A /* ContaAqui.app */;
@@ -391,6 +394,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6A34CFFF2E2938D500696EE7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCore;
+		};
+		6A8EE3F82E2A8D3D00A0063D /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6A34CFFF2E2938D500696EE7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol HomeViewDelegate: AnyObject {
+    func didTapProfileImage()
+}
