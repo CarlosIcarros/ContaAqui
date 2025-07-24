@@ -22,14 +22,13 @@ class HomeView: UIView {
     
     let profileImage: UIImageView = {
         let imageView = UIImageView()
-        // TODO:  provisorio
         imageView.image = UIImage(systemName: "person.circle")
         imageView.backgroundColor = UIColor.systemGray5
-        //
-        imageView.contentMode = .scaleAspectFit
+    
+        imageView.contentMode = .scaleToFill
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerRadius = 20
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
