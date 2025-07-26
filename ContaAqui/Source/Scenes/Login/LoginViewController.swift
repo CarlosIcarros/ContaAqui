@@ -14,7 +14,7 @@ class LoginViewController: UIViewController {
     let contentView: LoginView
     weak var flowDelegate: LoginFlowDelegate?
     
-    init(contentView: LoginView, flowDelegate: LoginFlowDelegate?) {
+    init(contentView: LoginView, flowDelegate: LoginFlowDelegate) {
         self.contentView = contentView
         self.flowDelegate = flowDelegate
         super.init(nibName: nil, bundle: nil)

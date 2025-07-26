@@ -120,7 +120,7 @@ class HomeView: UIView {
         return label
     }()
     
-    private let configIcon: UIButton = {
+    public let configIcon: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "gearshape.fill")
         button.setImage(image, for: .normal)

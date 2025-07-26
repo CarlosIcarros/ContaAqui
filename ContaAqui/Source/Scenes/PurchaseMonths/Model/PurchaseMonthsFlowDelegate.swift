@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol PurchaseMonthsFlowDelegate: AnyObject {
+    func popPage()
+}

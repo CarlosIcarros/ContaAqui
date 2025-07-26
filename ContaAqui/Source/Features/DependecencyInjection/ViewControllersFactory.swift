@@ -25,4 +25,12 @@ final class ViewControllersFactory: ViewControllersFactoryProtocol {
         let viewController = SpashViewController(contentView: contentView, flowDelegate: flowDelegate)
         return viewController
     }
+    
+    func makePurchaseviewController(flowDelegate: PurchaseMonthsFlowDelegate) -> PurchaseMonthsViewController {
+        let contentView = PurchaseMonthsView()
+        let viewController = PurchaseMonthsViewController(contentView: contentView, flowDelegate: flowDelegate)
+        
+        return viewController
+    }
+
 }

@@ -26,7 +26,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         contentView.delegate = self
         setup()
-        buttonLogoutTapped()
+        buttonConfigTapped()
         checkExistData()
     }
     
@@ -56,14 +56,20 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    private func buttonLogoutTapped() {
+    private func buttonConfigTapped() {
         self.contentView.logoutButton.addTarget(self, action: #selector(logoutAction), for: .touchUpInside)
+        self.contentView.configIcon.addTarget(self, action: #selector(configIconAction), for: .touchUpInside)
     }
     
     @objc
     private func logoutAction() {
         UserDefaultsManager.removeUser()
         self.flowDelegate.logout()
+    }
+    
+    @objc
+    private func configIconAction() {
+        self.flowDelegate.navigateToPurchase()
     }
 }
 

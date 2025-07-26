@@ -43,10 +43,20 @@ extension ContaAquiFlowController: LoginFlowDelegate {
 }
 
 extension ContaAquiFlowController: HomeFlowDelegate {
+    func navigateToPurchase() {
+        let viewController = viewControllerFactory.makePurchaseviewController(flowDelegate: self)
+        
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     func logout() {
         let viewController = viewControllerFactory.makeLoginViewController(flowDelegate: self)
         self.navigationController?.setViewControllers([viewController], animated: true)
     }
-    
-    
+}
+
+extension ContaAquiFlowController: PurchaseMonthsFlowDelegate {
+    func popPage() {
+        self.navigationController?.popViewController(animated: true)
+    }
 }
