@@ -55,7 +55,7 @@ extension ContaAquiFlowController: HomeFlowDelegate {
     }
     
     func openBottomSheet() {
-        let viewController = viewControllerFactory.makeBottomSheetViewController()
+        let viewController = viewControllerFactory.makeBottomSheetViewController(flowDelegate: self)
         
         
         if let sheet = viewController.sheetPresentationController {
@@ -70,5 +70,11 @@ extension ContaAquiFlowController: HomeFlowDelegate {
 extension ContaAquiFlowController: PurchaseMonthsFlowDelegate {
     func popPage() {
         self.navigationController?.popViewController(animated: true)
+    }
+}
+
+extension ContaAquiFlowController: BottomSheetFlowDelegate {
+    func closeModal() {
+        self.navigationController?.dismiss(animated: true)
     }
 }

@@ -19,11 +19,12 @@ class BottomSheetView: UIView {
         return label
     }()
     
-    private let closeIcon: UIImageView = {
+    let closeIcon: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "xmark")
         image.tintColor = Colors.gray500
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.isUserInteractionEnabled = true
         
         return image
     }()

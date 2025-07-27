@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol BottomSheetFlowDelegate: AnyObject {
+    func closeModal()
+}

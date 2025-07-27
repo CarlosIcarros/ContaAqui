@@ -10,9 +10,11 @@ import UIKit
 
 class BottomSheetViewController: UIViewController {
     let contentView: BottomSheetView
+    let flowDelegate: BottomSheetFlowDelegate
     
-    init(contentView: BottomSheetView) {
+    init(contentView: BottomSheetView, flowDelegate: BottomSheetFlowDelegate) {
         self.contentView = contentView
+        self.flowDelegate = flowDelegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -23,6 +25,20 @@ class BottomSheetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        configButton()
+    }
+    
+    private func configButton() {
+        contentView.closeIcon.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeButtonTapped))
+        
+        self.contentView.closeIcon.addGestureRecognizer(tapGesture)
+        
+    }
+    
+    @objc
+    private func closeButtonTapped() {
+        self.flowDelegate.closeModal()
     }
     
     private func setup() {
