@@ -41,6 +41,48 @@ class Input: UIView, UITextFieldDelegate {
        setupView()
     }
     
+    init(placeHolder: String, iconName: String) {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = placeHolder
+
+        let iconImageView = UIImageView(image: UIImage(systemName: iconName))
+        iconImageView.tintColor = .gray
+        iconImageView.contentMode = .scaleAspectFit
+
+        let iconContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 24))
+        iconImageView.frame = CGRect(x: 8, y: 2, width: 20, height: 20)
+        iconContainer.addSubview(iconImageView)
+
+        textField.leftView = iconContainer
+        textField.leftViewMode = .always
+
+        setupView()
+    }
+    
+    init(placeHolder: String, textLeft: String) {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = placeHolder
+
+        let label = UILabel()
+        label.text = textLeft
+        label.font = Text.buttonSm
+        label.numberOfLines = 1 
+        label.sizeToFit()
+        label.tintColor = Colors.gray600
+
+        let iconContainer = UIView(frame: CGRect(x: 0, y: 0, width: label.frame.width + 16, height: 24))
+        label.frame = CGRect(x: 8, y: 2, width: label.frame.width, height: 20)
+        iconContainer.addSubview(label)
+
+        textField.leftView = iconContainer
+        textField.leftViewMode = .always
+
+        setupView()
+    }
+
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -57,7 +99,7 @@ class Input: UIView, UITextFieldDelegate {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.leftViewMode = .always
-
+        
         // Se quiser padding também no lado direito:
         textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.rightViewMode = .always

@@ -36,21 +36,21 @@ class BottomSheetView: UIView {
     }()
     
     private let categoryInput: Input = {
-       let input = Input(placeHolder: "Categoria")
+       let input = Input(placeHolder: "Categoria", iconName: "tag")
         input.translatesAutoresizingMaskIntoConstraints = false
         
         return input
     }()
     
     private let inputDate: Input = {
-       let input = Input(placeHolder: "00/00/00")
+       let input = Input(placeHolder: "00/00/00", iconName: "calendar")
         
         input.translatesAutoresizingMaskIntoConstraints = false
         return input
     }()
     
     private let moneyInput: Input = {
-       let input = Input(placeHolder: "R$ 0,00")
+       let input = Input(placeHolder: "0,00", textLeft: "R$")
         input.translatesAutoresizingMaskIntoConstraints = false
         
         return input

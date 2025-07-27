@@ -101,7 +101,7 @@ class PurchaseMonthsView: UIView {
     }()
     
     private let dateInput: Input = {
-        let field = Input(placeHolder: "00/0000")
+        let field = Input(placeHolder: "00/0000", iconName: "calendar")
         field.translatesAutoresizingMaskIntoConstraints = false
         
         return field
@@ -109,7 +109,7 @@ class PurchaseMonthsView: UIView {
     
     
     private let moneyInput: Input = {
-        let field = Input(placeHolder: "R$ 0,00")
+        let field = Input(placeHolder: "R$ 0,00", textLeft: "R$")
         field.translatesAutoresizingMaskIntoConstraints = false
         
         return field
