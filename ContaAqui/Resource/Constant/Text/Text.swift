@@ -19,9 +19,6 @@ public struct Text {
     static let textSm = UIFont.systemFont(ofSize: 14, weight: .regular)
     static let textXs = UIFont.systemFont(ofSize: 12, weight: .regular)
     static let input = UIFont.systemFont(ofSize: 16, weight: .regular)
-    static let inputLineHeight: CGFloat = 24
     static let buttonMd = UIFont.systemFont(ofSize: 16, weight: .bold)
-    static let buttonMdLineHeight: CGFloat = 24
     static let buttonSm = UIFont.systemFont(ofSize: 14, weight: .bold)
-    static let buttonSmLineHeight: CGFloat = 20
 }
