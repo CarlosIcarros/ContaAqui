@@ -59,6 +59,8 @@ class HomeViewController: UIViewController {
     private func buttonConfigTapped() {
         self.contentView.logoutButton.addTarget(self, action: #selector(logoutAction), for: .touchUpInside)
         self.contentView.configIcon.addTarget(self, action: #selector(configIconAction), for: .touchUpInside)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openBottomSheet))
+        self.contentView.fabButton.addGestureRecognizer(tapGesture)
     }
     
     @objc
@@ -70,6 +72,11 @@ class HomeViewController: UIViewController {
     @objc
     private func configIconAction() {
         self.flowDelegate.navigateToPurchase()
+    }
+    
+    @objc
+    private func openBottomSheet() {
+        self.flowDelegate.openBottomSheet()
     }
 }
 

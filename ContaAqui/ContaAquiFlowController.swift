@@ -53,6 +53,18 @@ extension ContaAquiFlowController: HomeFlowDelegate {
         let viewController = viewControllerFactory.makeLoginViewController(flowDelegate: self)
         self.navigationController?.setViewControllers([viewController], animated: true)
     }
+    
+    func openBottomSheet() {
+        let viewController = viewControllerFactory.makeBottomSheetViewController()
+        
+        
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 20
+        }
+
+        self.navigationController?.present(viewController, animated: true)    }
 }
 
 extension ContaAquiFlowController: PurchaseMonthsFlowDelegate {

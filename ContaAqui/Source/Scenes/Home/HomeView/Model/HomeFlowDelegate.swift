@@ -10,4 +10,5 @@ import Foundation
 protocol HomeFlowDelegate: AnyObject {
     func logout()
     func navigateToPurchase()
+    func openBottomSheet()
 }

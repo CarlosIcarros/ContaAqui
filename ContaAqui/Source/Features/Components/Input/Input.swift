@@ -31,12 +31,11 @@ class Input: UIView, UITextFieldDelegate {
         textField.isSecureTextEntry = true
         
         togglePasswordButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
-        // Criar uma view que vai envolver o botão e dar padding
-        let eyeContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 24)) // largura maior que o botão
-        togglePasswordButton.frame = CGRect(x: 8, y: 0, width: 24, height: 24) // padding de 8 à esquerda
+
+        let eyeContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 24)) 
+        togglePasswordButton.frame = CGRect(x: 8, y: 0, width: 24, height: 24)
         eyeContainer.addSubview(togglePasswordButton)
 
-        // Adicionar ao textField
         textField.rightView = eyeContainer
         textField.rightViewMode = .always
        setupView()

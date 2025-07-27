@@ -14,6 +14,7 @@ public struct Text {
     static let titleSm = UIFont.systemFont(ofSize: 14, weight: .regular)
     static let titleSmBold = UIFont.boldSystemFont(ofSize: 14)
     static let titleXs = UIFont.systemFont(ofSize: 12, weight: .regular)
+    static let titleXsBold = UIFont.systemFont(ofSize: 12, weight: .bold)
     static let title2Xs = UIFont.systemFont(ofSize: 10, weight: .bold)
     static let textSm = UIFont.systemFont(ofSize: 14, weight: .regular)
     static let textXs = UIFont.systemFont(ofSize: 12, weight: .regular)

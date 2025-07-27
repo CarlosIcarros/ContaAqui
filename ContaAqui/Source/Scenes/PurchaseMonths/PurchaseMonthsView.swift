@@ -115,13 +115,8 @@ class PurchaseMonthsView: UIView {
         return field
     }()
     
-    let purchaseButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Adicionar", for: .normal)
-        button.backgroundColor = Colors.magenta
-        button.layer.cornerRadius = 8
-        button.titleLabel?.font = Text.buttonMd
-        button.tintColor = .white
+    let purchaseButton: Button = {
+        let button = Button(title: "Adicionar")
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button

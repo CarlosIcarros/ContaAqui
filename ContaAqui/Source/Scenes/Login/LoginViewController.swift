@@ -35,7 +35,7 @@ class LoginViewController: UIViewController {
     }
     
     private func didTapLoginButton() {
-        contentView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        contentView.loginButton.button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
     
     @objc

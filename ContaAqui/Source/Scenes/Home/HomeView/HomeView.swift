@@ -244,6 +244,7 @@ class HomeView: UIView {
         button.layer.shadowOpacity = 0.3
         button.layer.shadowOffset = CGSize(width: 0, height: 2)
         button.layer.shadowRadius = 4
+        button.isUserInteractionEnabled = true
 
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

@@ -32,5 +32,12 @@ final class ViewControllersFactory: ViewControllersFactoryProtocol {
         
         return viewController
     }
+    
+    func makeBottomSheetViewController() -> BottomSheetViewController {
+        let contentView = BottomSheetView()
+        let viewController = BottomSheetViewController(contentView: contentView)
+        
+        return viewController
+    }
 
 }

@@ -93,13 +93,8 @@ class LoginView: UIView {
         return divider
     }()
     
-    let loginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Entrar", for: .normal)
-        button.backgroundColor = Colors.magenta
-        button.layer.cornerRadius = 8
-        button.titleLabel?.font = Text.buttonMd
-        button.tintColor = .white
+    let loginButton: Button = {
+        let button = Button(title: "Entrar")
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
