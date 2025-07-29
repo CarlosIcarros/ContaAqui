@@ -11,6 +11,7 @@ import UIKit
 class BottomSheetViewController: UIViewController {
     let contentView: BottomSheetView
     let flowDelegate: BottomSheetFlowDelegate
+    private let viewModel = BottomSheetViewModel()
     
     init(contentView: BottomSheetView, flowDelegate: BottomSheetFlowDelegate) {
         self.contentView = contentView
@@ -34,11 +35,17 @@ class BottomSheetViewController: UIViewController {
         
         self.contentView.closeIcon.addGestureRecognizer(tapGesture)
         
+        contentView.saveButton.button.addTarget(self, action: #selector(addButtonTapper), for: .touchUpInside)
     }
     
     @objc
     private func closeButtonTapped() {
         self.flowDelegate.closeModal()
+    }
+    
+    @objc
+    private func addButtonTapper() {
+        viewModel.addTransaction(title: "teste", category: "t", money: "e", date: "s", income: false)
     }
     
     private func setup() {
