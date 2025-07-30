@@ -76,4 +76,31 @@ class DBHelper {
         sqlite3_finalize(statement)
         
     }
+    
+    func fetchTrancastionMonth() -> [TransactionMonth] {
+        let fetchQuery = "SELECT * FROM TransactionMonth"
+        var statement: OpaquePointer?
+        var transactionMonths: [TransactionMonth] = []
+        
+        if sqlite3_prepare(db, fetchQuery, -1, &statement, nil) == SQLITE_OK {
+                    
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let id = Int(sqlite3_column_int(statement, 0))
+                let title = sqlite3_column_text(statement, 1).flatMap { String(cString: $0) } ?? "Unknown"
+                let category = sqlite3_column_text(statement, 2).flatMap { String(cString: $0) } ?? "Unknown"
+                let money = sqlite3_column_text(statement, 3).flatMap { String(cString: $0) } ?? "Unknown"
+                let date = sqlite3_column_text(statement, 4).flatMap { String(cString: $0) } ?? "Unknown"
+                let incomeValue = sqlite3_column_int(statement, 5)
+                let income = incomeValue == 1 ? "true" : "false"
+                
+                transactionMonths.append(TransactionMonth(id: id, title: title, category: category, money: money, date: date, income: income))
+            }
+        } else {
+            print("SELECT statement falhou")
+        }
+        
+        sqlite3_finalize(statement)
+        
+        return transactionMonths
+    }
 }

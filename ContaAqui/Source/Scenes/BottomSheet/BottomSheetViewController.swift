@@ -46,6 +46,8 @@ class BottomSheetViewController: UIViewController {
     @objc
     private func addButtonTapper() {
         viewModel.addTransaction(title: "teste", category: "t", money: "e", date: "s", income: false)
+        self.flowDelegate.didAddTransaction()
+        self.flowDelegate.closeModal()
     }
     
     private func setup() {

@@ -11,6 +11,8 @@ import UIKit
 class HomeViewController: UIViewController {
     let contentView: HomeView
     let flowDelegate: HomeFlowDelegate
+    let viewModel = HomeFlowViewModel()
+    private var transactionMonths: [TransactionMonth] = []
     
     init(contentView: HomeView, flowDelegate: HomeFlowDelegate) {
         self.contentView = contentView
@@ -28,6 +30,23 @@ class HomeViewController: UIViewController {
         setup()
         buttonConfigTapped()
         checkExistData()
+        loadData()
+    }
+    
+    func loadData() {
+        transactionMonths = viewModel.fetchData()
+        updateUI()
+    }
+    
+    func reloadData() {
+        loadData()
+    }
+    
+    private func updateUI() {
+        // Atualiza o contador de lançamentos
+        DispatchQueue.main.async {
+            self.contentView.updateLaunchCount(count: self.transactionMonths.count)
+        }
     }
     
     private func checkExistData() {

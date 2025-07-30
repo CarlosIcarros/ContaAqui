@@ -301,6 +301,19 @@ class HomeView: UIView {
         delegate?.didTapProfileImage()
     }
     
+    func updateLaunchCount(count: Int) {
+        launchValue.text = "\(count)"
+        
+        // Atualiza a descrição baseado no número de transações
+        if count == 0 {
+            launchDescription.text = "Você ainda não registrou despesas ou receitas neste mês"
+            launchImage.isHidden = false
+        } else {
+            launchDescription.text = "Você tem \(count) \(count == 1 ? "transação registrada" : "transações registradas") neste mês"
+            launchImage.isHidden = true
+        }
+    }
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             backgroundHeader.topAnchor.constraint(equalTo: self.topAnchor,),
