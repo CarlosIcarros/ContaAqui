@@ -29,28 +29,28 @@ class BottomSheetView: UIView {
         return image
     }()
     
-    private let titleInput: Input = {
+    public let titleInput: Input = {
        let input = Input(placeHolder: "Título da transação")
         input.translatesAutoresizingMaskIntoConstraints = false
         
         return input
     }()
     
-    private let categoryInput: Input = {
+    public let categoryInput: Input = {
        let input = Input(placeHolder: "Categoria", iconName: "tag")
         input.translatesAutoresizingMaskIntoConstraints = false
         
         return input
     }()
     
-    private let inputDate: Input = {
+    public let inputDate: Input = {
        let input = Input(placeHolder: "00/00/00", iconName: "calendar")
         
         input.translatesAutoresizingMaskIntoConstraints = false
         return input
     }()
     
-    private let moneyInput: Input = {
+    public let moneyInput: Input = {
        let input = Input(placeHolder: "0,00", textLeft: "R$")
         input.translatesAutoresizingMaskIntoConstraints = false
         

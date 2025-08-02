@@ -27,6 +27,10 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.delegate = self
+        contentView.table.dataSource = self
+        contentView.table.delegate = self
+        contentView.table.register(TransactionMonthCell.self, forCellReuseIdentifier: TransactionMonthCell.identifier)
+        
         setup()
         buttonConfigTapped()
         checkExistData()
@@ -43,9 +47,9 @@ class HomeViewController: UIViewController {
     }
     
     private func updateUI() {
-        // Atualiza o contador de lançamentos
         DispatchQueue.main.async {
             self.contentView.updateLaunchCount(count: self.transactionMonths.count)
+            self.contentView.table.reloadData()
         }
     }
     
@@ -121,7 +125,6 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
         if let editedImage = info[.editedImage] as? UIImage {
             contentView.profileImage.image = editedImage
             UserDefaultsManager.saveProfileImage(image: editedImage)
-// salvar imagem
             
         } else if let originalImage = info[.originalImage] as? UIImage {
             contentView.profileImage.image = originalImage
@@ -133,5 +136,33 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
+    }
+}
+
+extension HomeViewController: UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+}
+
+
+extension HomeViewController: UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return transactionMonths.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let celula = tableView.dequeueReusableCell(withIdentifier: TransactionMonthCell.identifier, for: indexPath) as? TransactionMonthCell else {
+            return UITableViewCell()
+        }
+        let item = transactionMonths[indexPath.section ]
+        celula.configure(with: item)
+        celula.backgroundColor = Colors.gray100
+        return celula
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("clicou no \(transactionMonths[indexPath.row])")
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -23,17 +23,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B359A3E6-F522-45EE-A165-C6613E609F8E"
+            uuid = "6F1671B8-29C7-4EF9-90D9-FE314EAF0731"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ContaAqui/Source/Scenes/Home/HomeView/HomeViewController.swift"
+            filePath = "ContaAqui/Source/Features/Components/Table/TransactionMonthCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "HomeViewController"
-            landmarkType = "21">
+            startingLineNumber = "170"
+            endingLineNumber = "170"
+            landmarkName = "configure(with:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

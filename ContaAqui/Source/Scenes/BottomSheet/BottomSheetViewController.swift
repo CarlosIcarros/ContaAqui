@@ -45,7 +45,12 @@ class BottomSheetViewController: UIViewController {
     
     @objc
     private func addButtonTapper() {
-        viewModel.addTransaction(title: "teste", category: "t", money: "e", date: "s", income: false)
+        let title = contentView.titleInput.textField.text ?? ""
+        let category = contentView.categoryInput.textField.text ?? ""
+        let dateInput = contentView.inputDate.textField.text ?? ""
+        let money = contentView.moneyInput.textField.text ?? ""
+        
+        viewModel.addTransaction(title: title, category: category, money: money, date: dateInput, income: false)
         self.flowDelegate.didAddTransaction()
         self.flowDelegate.closeModal()
     }
