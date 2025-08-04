@@ -14,7 +14,8 @@ class DBHelper {
     
     private init() {
         openDataBase()
-        createTable()
+        createTableTransactionMonth()
+        createTableLimitMonth()
     }
     
     private func openDataBase() {
@@ -26,7 +27,7 @@ class DBHelper {
         }
     }
     
-    private func createTable() {
+    private func createTableTransactionMonth() {
         let createTableQuery = """
                    CREATE TABLE IF NOT EXISTS TransactionMonth (
                            id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,7 +42,30 @@ class DBHelper {
         
         if sqlite3_prepare_v2(db, createTableQuery, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
-                print("tabela criada com sucesso")
+                print("tabela criada com sucesso transaction Month")
+            } else {
+                print("erro na criacao da tabela")
+            }
+        } else {
+            print("create table statement nao consegui executar")
+        }
+        
+        sqlite3_finalize(statement)
+    }
+    
+    private func createTableLimitMonth() {
+        let createTableQuery = """
+                   CREATE TABLE IF NOT EXISTS LimitMonth (
+                           id INTEGER PRIMARY KEY AUTOINCREMENT,
+                           date TEXT,
+                           money TEXT
+                   );
+               """
+        var statement: OpaquePointer?
+        
+        if sqlite3_prepare_v2(db, createTableQuery, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("tabela criada com sucesso limit Month")
             } else {
                 print("erro na criacao da tabela")
             }
@@ -64,6 +88,28 @@ class DBHelper {
             sqlite3_bind_text(statement, 3, (money as NSString).utf8String, -1, nil)
             sqlite3_bind_text(statement, 4, (date as NSString).utf8String, -1, nil)
             sqlite3_bind_int(statement, 5, (income ? 1 : 0))
+            
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("receita inserida com sucesso!!")
+            } else {
+                print("falha ao inserir a receita na tabela")
+            }
+        } else {
+            print("insert statement falhou")
+        }
+        sqlite3_finalize(statement)
+        
+    }
+    
+    func insertLimitMonth(date: String, money: String) {
+        let insertQuery = """
+                            INSERT INTO LimitMonth (date, money) VALUES (?, ?);
+                        """
+        var statement: OpaquePointer?
+        
+        if sqlite3_prepare_v2(db, insertQuery, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_text(statement, 1, (date as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 2, (money as NSString).utf8String, -1, nil)
             
             if sqlite3_step(statement) == SQLITE_DONE {
                 print("receita inserida com sucesso!!")
@@ -106,6 +152,26 @@ class DBHelper {
     
     func deleteTransactionMonth(byId id: Int) {
         let deleteQuery = "DELETE FROM TransactionMonth WHERE id = ?"
+        
+        var statemente: OpaquePointer?
+        
+        if sqlite3_prepare(db, deleteQuery, -1, &statemente, nil) == SQLITE_OK {
+            sqlite3_bind_int(statemente, 1, Int32(id))
+            
+            if sqlite3_step(statemente) == SQLITE_DONE {
+                print("Deletado com sucesso!")
+            } else {
+                print("erro ao deletar")
+            }
+        } else {
+            print("deu erro no statemente")
+        }
+        
+        sqlite3_finalize(statemente)
+    }
+    
+    func deleteLimitMonth(byId id: Int) {
+        let deleteQuery = "DELETE FROM LimitMonth WHERE id = ?"
         
         var statemente: OpaquePointer?
         

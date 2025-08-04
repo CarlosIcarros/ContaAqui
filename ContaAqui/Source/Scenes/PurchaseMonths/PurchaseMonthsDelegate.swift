@@ -8,5 +8,5 @@
 import Foundation
 
 protocol PurchaseMonthsDelegate: AnyObject {
-    
+    func createPurchaseMonth(date: String, value: String)
 }

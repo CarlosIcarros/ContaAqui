@@ -31,11 +31,24 @@ class PurchaseMonthsViewController: UIViewController {
     
     private func configButton() {
         self.contentView.backButton.addTarget(self, action: #selector(popPage), for: .touchUpInside)
+        
+        self.contentView.purchaseButton.button.addTarget(self, action: #selector(createLimitMonth), for: .touchUpInside)
     }
     
     @objc
     private func popPage() {
         flowDelegate?.popPage()
+    }
+    
+    @objc
+    private func createLimitMonth() {
+        let date = self.contentView.dateInput.textField.text ?? ""
+        let value = self.contentView.moneyInput.textField.text ?? ""
+        
+        self.createPurchaseMonth(date: date, value: value)
+        
+        self.contentView.dateInput.textField.text = ""
+        self.contentView.moneyInput.textField.text = ""
     }
     
     private func setup() {
@@ -57,5 +70,7 @@ class PurchaseMonthsViewController: UIViewController {
 }
 
 extension PurchaseMonthsViewController: PurchaseMonthsDelegate {
-    
+    func createPurchaseMonth(date: String, value: String) {
+        DBHelper.shared.insertLimitMonth(date: date, money: value)
+    }
 }
