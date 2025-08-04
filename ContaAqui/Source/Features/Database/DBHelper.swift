@@ -103,4 +103,24 @@ class DBHelper {
         
         return transactionMonths
     }
+    
+    func deleteTransactionMonth(byId id: Int) {
+        let deleteQuery = "DELETE FROM TransactionMonth WHERE id = ?"
+        
+        var statemente: OpaquePointer?
+        
+        if sqlite3_prepare(db, deleteQuery, -1, &statemente, nil) == SQLITE_OK {
+            sqlite3_bind_int(statemente, 1, Int32(id))
+            
+            if sqlite3_step(statemente) == SQLITE_DONE {
+                print("Deletado com sucesso!")
+            } else {
+                print("erro ao deletar")
+            }
+        } else {
+            print("deu erro no statemente")
+        }
+        
+        sqlite3_finalize(statemente)
+    }
 }

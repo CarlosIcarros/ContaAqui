@@ -23,7 +23,7 @@ class TransactionMonthTable: UITableView {
     };
     
     private func setupView() {
-        
+        self.backgroundColor = Colors.gray200
         self.translatesAutoresizingMaskIntoConstraints = false
         self.rowHeight = 44
         self.tableFooterView = UIView()

@@ -10,6 +10,7 @@ import UIKit
 
 class TransactionMonthCell: UITableViewCell {
     static let identifier = "TransactionMonthCell"
+    var onDelete: (() -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -17,6 +18,7 @@ class TransactionMonthCell: UITableViewCell {
         layoutMargins = .zero
         preservesSuperviewLayoutMargins = false
         setupView()
+        configuraButton()
     }
     
     required init?(coder: NSCoder) {
@@ -77,20 +79,18 @@ class TransactionMonthCell: UITableViewCell {
         return label
     }()
     
-    private let iconDownUp: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "arrowtriangle.down.fill")
-        imageView.tintColor = Colors.red
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    
-    private let trashIcon: UIImageView = {
+    public let trashIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(systemName: "trash")
         imageView.tintColor = Colors.magenta
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
+    public var genericIcon: UIImageView = {
+        let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -138,7 +138,7 @@ class TransactionMonthCell: UITableViewCell {
         mainStack.addArrangedSubview(textStack)
         mainStack.addArrangedSubview(textValue)
         mainStack.addArrangedSubview(value)
-        mainStack.addArrangedSubview(iconDownUp)
+        mainStack.addArrangedSubview(genericIcon)
         mainStack.addArrangedSubview(trashIcon)
         
         contentView.addSubview(mainStack)
@@ -156,8 +156,8 @@ class TransactionMonthCell: UITableViewCell {
             icon.centerXAnchor.constraint(equalTo: containerIcon.centerXAnchor),
             icon.centerYAnchor.constraint(equalTo: containerIcon.centerYAnchor),
             
-            iconDownUp.heightAnchor.constraint(equalToConstant: 14),
-            iconDownUp.widthAnchor.constraint(equalToConstant: 14),
+            genericIcon.heightAnchor.constraint(equalToConstant: 14),
+            genericIcon.widthAnchor.constraint(equalToConstant: 14),
             
             mainStack.topAnchor.constraint(equalTo: contentView.topAnchor),
             mainStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
@@ -166,12 +166,26 @@ class TransactionMonthCell: UITableViewCell {
         ])
     }
     
+    
+    private func configuraButton() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(trashIconTapped))
+        
+        trashIcon.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func trashIconTapped() {
+        onDelete?()
+    }
+    
+    
     func configure(with transaction: TransactionMonth) {
         title.text = transaction.title
         descriptionTitle.text = transaction.date
         
         value.text = transaction.money
+        let isIncome = transaction.income == "false"
+        genericIcon.image = isIncome ? UIImage(systemName: "arrowtriangle.down.fill") : UIImage(systemName: "arrowtriangle.up.fill")
+        genericIcon.tintColor = isIncome ? Colors.red : Colors.green
     }
     
 }
-

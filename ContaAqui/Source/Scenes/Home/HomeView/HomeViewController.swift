@@ -27,10 +27,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         contentView.delegate = self
-        contentView.table.dataSource = self
-        contentView.table.delegate = self
-        contentView.table.register(TransactionMonthCell.self, forCellReuseIdentifier: TransactionMonthCell.identifier)
         
+        configureTable()
         setup()
         buttonConfigTapped()
         checkExistData()
@@ -44,6 +42,12 @@ class HomeViewController: UIViewController {
     
     func reloadData() {
         loadData()
+    }
+    
+    func configureTable() {
+        contentView.table.dataSource = self
+        contentView.table.delegate = self
+        contentView.table.register(TransactionMonthCell.self, forCellReuseIdentifier: TransactionMonthCell.identifier)
     }
     
     private func updateUI() {
@@ -82,8 +86,13 @@ class HomeViewController: UIViewController {
     private func buttonConfigTapped() {
         self.contentView.logoutButton.addTarget(self, action: #selector(logoutAction), for: .touchUpInside)
         self.contentView.configIcon.addTarget(self, action: #selector(configIconAction), for: .touchUpInside)
+        
+        
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openBottomSheet))
         self.contentView.fabButton.addGestureRecognizer(tapGesture)
+        
+        
     }
     
     @objc
@@ -101,9 +110,15 @@ class HomeViewController: UIViewController {
     private func openBottomSheet() {
         self.flowDelegate.openBottomSheet()
     }
+    
+    
 }
 
 extension HomeViewController: HomeViewDelegate {
+    func deleteMonth(byId id: Int) {
+        DBHelper.shared.deleteTransactionMonth(byId: id)
+    }
+    
     func didTapProfileImage() {
         selectProfileImage()
     }
@@ -158,6 +173,13 @@ extension HomeViewController: UITableViewDelegate {
         let item = transactionMonths[indexPath.section ]
         celula.configure(with: item)
         celula.backgroundColor = Colors.gray100
+        celula.onDelete = { [weak self] in
+            let itemId = self?.transactionMonths[indexPath.section].id
+            if let id = itemId {
+                self?.deleteMonth(byId: id)
+                self?.reloadData()
+            }
+        }
         return celula
     }
     

@@ -185,6 +185,7 @@ class HomeView: UIView {
     
     public let table: TransactionMonthTable = {
         let table = TransactionMonthTable()
+        table.backgroundColor = Colors.gray100
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()

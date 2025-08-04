@@ -12,6 +12,7 @@ class BottomSheetViewController: UIViewController {
     let contentView: BottomSheetView
     let flowDelegate: BottomSheetFlowDelegate
     private let viewModel = BottomSheetViewModel()
+    private var valueSelect: String?
     
     init(contentView: BottomSheetView, flowDelegate: BottomSheetFlowDelegate) {
         self.contentView = contentView
@@ -29,6 +30,40 @@ class BottomSheetViewController: UIViewController {
         configButton()
     }
     
+    func agendarNotificacao() {
+        let conteudo = UNMutableNotificationContent()
+        conteudo.title = "Lembrete"
+        conteudo.body = "Você tem uma transação para revisar."
+        conteudo.sound = UNNotificationSound.default
+        
+        let agora = Date()
+        var component = Calendar.current.dateComponents([.year, .month, .day], from: agora)
+        
+        component.hour = 22
+        component.minute = 00
+        
+        // Cria a data completa para hoje às 22h
+        if let dataNotificacao = Calendar.current.date(from: component), dataNotificacao < agora {
+            // Já passou de 22h hoje? Agenda para amanhã
+            if let amanha = Calendar.current.date(byAdding: .day, value: 1, to: dataNotificacao) {
+                component = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: amanha)
+            }
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: component, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: "lembreteNotification", content: conteudo, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Erro ao agendar: \(error.localizedDescription)")
+                } else {
+                    print("Notificação agendada ✅")
+                }
+            }
+        }
+    }
+    
+    
     private func configButton() {
         contentView.closeIcon.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeButtonTapped))
@@ -36,6 +71,9 @@ class BottomSheetViewController: UIViewController {
         self.contentView.closeIcon.addGestureRecognizer(tapGesture)
         
         contentView.saveButton.button.addTarget(self, action: #selector(addButtonTapper), for: .touchUpInside)
+        
+        contentView.incomeButton.button.addTarget(self, action: #selector(selectButtonIncome), for: .touchUpInside)
+        contentView.outcomeButton.button.addTarget(self, action: #selector(selectButtonOutcome), for: .touchUpInside)
     }
     
     @objc
@@ -50,9 +88,20 @@ class BottomSheetViewController: UIViewController {
         let dateInput = contentView.inputDate.textField.text ?? ""
         let money = contentView.moneyInput.textField.text ?? ""
         
-        viewModel.addTransaction(title: title, category: category, money: money, date: dateInput, income: false)
+        viewModel.addTransaction(title: title, category: category, money: money, date: dateInput, income: valueSelect == "income")
+        agendarNotificacao()
         self.flowDelegate.didAddTransaction()
         self.flowDelegate.closeModal()
+    }
+    
+    @objc
+    private func selectButtonIncome() {
+        valueSelect = "income"
+    }
+    
+    @objc
+    private func selectButtonOutcome() {
+        valueSelect = "outcome"
     }
     
     private func setup() {

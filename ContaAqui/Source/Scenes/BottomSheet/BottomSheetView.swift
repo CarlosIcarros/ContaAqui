@@ -67,14 +67,14 @@ class BottomSheetView: UIView {
         return stackView
     }()
     
-    private let incomeButton: ButtonStatus = {
+    public let incomeButton: ButtonStatus = {
         let button = ButtonStatus(status: .positive, title: "Entrada")
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
     }()
     
-    private let outcomeButton: ButtonStatus = {
+    public let outcomeButton: ButtonStatus = {
         let button = ButtonStatus(status: .negative, title: "Saída")
         button.translatesAutoresizingMaskIntoConstraints = false
         

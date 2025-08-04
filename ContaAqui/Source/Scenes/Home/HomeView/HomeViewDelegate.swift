@@ -9,4 +9,5 @@ import Foundation
 
 protocol HomeViewDelegate: AnyObject {
     func didTapProfileImage()
+    func deleteMonth(byId id: Int)
 }
