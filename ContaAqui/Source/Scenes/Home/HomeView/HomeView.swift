@@ -312,10 +312,10 @@ class HomeView: UIView {
     func updateLaunchCount(count: Int) {
         launchValue.text = "\(count)"
         
-        // Atualiza a descrição baseado no número de transações
         if count == 0 {
-            launchDescription.text = "Você ainda não registrou despesas ou receitas neste mês"
+            launchDescription.isHidden = false
             launchImage.isHidden = false
+            
             table.isHidden = true
         } else {
             launchDescription.isHidden = true
