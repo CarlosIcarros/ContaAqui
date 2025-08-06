@@ -80,7 +80,7 @@ extension ContaAquiFlowController: BottomSheetFlowDelegate {
     
     func didAddTransaction() {
         // Notifica o HomeViewController para recarregar os dados
-        if let homeVC = navigationController?.viewControllers.last as? HomeViewController {
+        if let homeVC = navigationController?.viewControllers.first as? HomeViewController {
             homeVC.reloadData()
         }
     }

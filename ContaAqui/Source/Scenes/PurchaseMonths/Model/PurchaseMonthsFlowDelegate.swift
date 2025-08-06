@@ -9,4 +9,5 @@ import Foundation
 
 protocol PurchaseMonthsFlowDelegate: AnyObject {
     func popPage()
+    func didAddTransaction()
 }

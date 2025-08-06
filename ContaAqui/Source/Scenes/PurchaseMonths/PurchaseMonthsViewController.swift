@@ -60,6 +60,7 @@ class PurchaseMonthsViewController: UIViewController {
     
     @objc
     private func popPage() {
+        flowDelegate?.didAddTransaction()
         flowDelegate?.popPage()
     }
     
