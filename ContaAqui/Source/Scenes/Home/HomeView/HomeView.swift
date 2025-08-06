@@ -160,14 +160,14 @@ class HomeView: UIView {
         return button
     }()
     
-    private let usignLimit: LimitComponent = {
+    public let usignLimit: LimitComponent = {
         let limitComponent = LimitComponent(text: "Usado", subText: "R$ 0,00",  alignment: .left)
 
         limitComponent.translatesAutoresizingMaskIntoConstraints = false
         return limitComponent
     }()
     
-    private let availableLimit: LimitComponent = {
+    public let availableLimit: LimitComponent = {
         let limitComponent = LimitComponent(text: "Limite", subText: "∞", alignment: .right)
         
         limitComponent.translatesAutoresizingMaskIntoConstraints = false

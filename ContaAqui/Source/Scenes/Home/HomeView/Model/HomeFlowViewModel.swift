@@ -11,4 +11,8 @@ class HomeFlowViewModel {
     func fetchData() -> [TransactionMonth] {
         return DBHelper.shared.fetchTrancastionMonth()
     }
+    
+    func fetchDataLimit() -> [TransactionLimit] {
+        return DBHelper.shared.fetchTrancastionLimit()
+    }
 }

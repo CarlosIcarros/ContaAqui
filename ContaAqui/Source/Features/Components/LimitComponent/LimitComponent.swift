@@ -16,7 +16,7 @@ class LimitComponent: UIView {
         return label
     }()
     
-    private let textLimit: UILabel = {
+    public let textLimit: UILabel = {
         let label = UILabel()
         label.textColor = Colors.gray100
         label.translatesAutoresizingMaskIntoConstraints = false

@@ -98,8 +98,8 @@ class TransactionLimitCell: UITableViewCell {
         stack.axis = .horizontal
         stack.spacing = 6
         stack.alignment = .center
-        
         stack.translatesAutoresizingMaskIntoConstraints = false
+        
         return stack
     }()
     
@@ -114,6 +114,8 @@ class TransactionLimitCell: UITableViewCell {
         mainStack.addArrangedSubview(trashIcon)
         
         contentView.addSubview(mainStack)
+        month.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        month.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         setupConstraints()
     }
@@ -124,6 +126,10 @@ class TransactionLimitCell: UITableViewCell {
             mainStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             mainStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 8),
             mainStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            iconImageView.widthAnchor.constraint(equalToConstant: 20),
+            iconImageView.heightAnchor.constraint(equalToConstant: 20),
+            
         ])
     }
     

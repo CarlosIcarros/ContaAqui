@@ -167,6 +167,13 @@ class PurchaseMonthsView: UIView {
         return label
     }()
     
+    public let table: TransactionMonthTable = {
+        let table = TransactionMonthTable()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        
+        return table
+    }()
+    
     private func setupView() {
         self.backgroundColor = Colors.gray200
         addSubview(backgroundHeader)
@@ -185,10 +192,34 @@ class PurchaseMonthsView: UIView {
         addSubview(launchContainer)
         launchContainer.addSubview(launchText)
         launchContainer.addSubview(launchdivider)
+        launchContainer.addSubview(table)
         launchContainer.addSubview(launchImage)
         launchContainer.addSubview(launchDescription)
     
         setupConstraints()
+    }
+    
+    func updateLaunch(count: Int) {
+        if count == 0 {
+            launchDescription.isHidden = false
+            launchImage.isHidden = false
+            
+            table.isHidden = true
+        } else {
+            launchDescription.isHidden = true
+            launchImage.isHidden = true
+            table.isHidden = false
+            
+            table.backgroundColor = Colors.gray100
+            NSLayoutConstraint.activate([
+                table.topAnchor.constraint(equalTo: launchdivider.bottomAnchor, constant: 15),
+                table.bottomAnchor.constraint(equalTo: launchContainer.bottomAnchor, constant: -24),
+                table.leadingAnchor.constraint(equalTo: launchContainer.leadingAnchor, constant: 15),
+                table.trailingAnchor.constraint(equalTo: launchContainer.trailingAnchor, constant: -15),
+            ])
+                
+            
+        }
     }
     
     private func setupConstraints() {
@@ -234,7 +265,7 @@ class PurchaseMonthsView: UIView {
             launchContainer.topAnchor.constraint(equalTo: purchaseContainer.bottomAnchor, constant: 20),
             launchContainer.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             launchContainer.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
-            launchContainer.heightAnchor.constraint(equalToConstant: 130),
+            launchContainer.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -40),
             
             launchText.topAnchor.constraint(equalTo: launchContainer.topAnchor, constant: 15),
             launchText.leadingAnchor.constraint(equalTo: launchContainer.leadingAnchor, constant: 20),

@@ -31,16 +31,31 @@ class PurchaseMonthsViewController: UIViewController {
         setup()
         configButton()
         loadData()
+        configureTable()
+    }
+    
+    private func configureTable() {
+        contentView.table.dataSource = self
+        contentView.table.delegate = self
+        contentView.table.register(TransactionLimitCell.self, forCellReuseIdentifier: TransactionLimitCell.identifier)
     }
     
     func loadData() {
         transationLimit = viewModel.fetchData()
+        updateUI()
+    }
+    
+    private func updateUI() {
+        DispatchQueue.main.async {
+            self.contentView.updateLaunch(count: self.transationLimit.count)
+            self.contentView.table.reloadData()
+        }
     }
     
     private func configButton() {
         self.contentView.backButton.addTarget(self, action: #selector(popPage), for: .touchUpInside)
         
-        self.contentView.purchaseButton.button.addTarget(self, action: #selector(createLimitMonth), for: .touchUpInside)
+        self.contentView.purchaseButton.button.addTarget(self, action: #selector(createLimitMonthTap), for: .touchUpInside)
     }
     
     @objc
@@ -49,14 +64,15 @@ class PurchaseMonthsViewController: UIViewController {
     }
     
     @objc
-    private func createLimitMonth() {
+    private func createLimitMonthTap() {
         let date = self.contentView.dateInput.textField.text ?? ""
         let value = self.contentView.moneyInput.textField.text ?? ""
         
-        self.createPurchaseMonth(date: date, value: value)
+        self.createLimitMonth(date: date, value: value)
         
         self.contentView.dateInput.textField.text = ""
         self.contentView.moneyInput.textField.text = ""
+        self.loadData()
     }
     
     private func setup() {
@@ -78,7 +94,11 @@ class PurchaseMonthsViewController: UIViewController {
 }
 
 extension PurchaseMonthsViewController: PurchaseMonthsDelegate {
-    func createPurchaseMonth(date: String, value: String) {
+    func deleteLimitMonth(id: Int) {
+        DBHelper.shared.deleteLimitMonth(byId: id)
+    }
+    
+    func createLimitMonth(date: String, value: String) {
         DBHelper.shared.insertLimitMonth(date: date, money: value)
     }
 }
@@ -105,10 +125,16 @@ extension PurchaseMonthsViewController: UITableViewDelegate {
         celula.onDelete = { [weak self] in
             let itemId = self?.transationLimit[indexPath.section].id
             if let id = itemId {
-                // todo precisa deletar e reload data
+                self?.deleteLimitMonth(id: id)
+                self?.loadData()
             }
         }
         
         return celula
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("clicou no \(transationLimit[indexPath.row])")
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

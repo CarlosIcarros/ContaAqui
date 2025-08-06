@@ -13,12 +13,14 @@ class HomeViewController: UIViewController {
     let flowDelegate: HomeFlowDelegate
     let viewModel = HomeFlowViewModel()
     private var transactionMonths: [TransactionMonth] = []
+    private var transactionLimit: [TransactionLimit] = []
     
     init(contentView: HomeView, flowDelegate: HomeFlowDelegate) {
         self.contentView = contentView
         self.flowDelegate = flowDelegate
         super.init(nibName: nil, bundle: nil)
     }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -33,15 +35,19 @@ class HomeViewController: UIViewController {
         buttonConfigTapped()
         checkExistData()
         loadData()
+        usingLimit()
     }
     
     func loadData() {
         transactionMonths = viewModel.fetchData()
+        transactionLimit = viewModel.fetchDataLimit()
+        
         updateUI()
     }
     
     func reloadData() {
         loadData()
+        usingLimit()
     }
     
     func configureTable() {
@@ -65,6 +71,27 @@ class HomeViewController: UIViewController {
         if let savedImage = UserDefaultsManager.loadProfileImage() {
             contentView.profileImage.image = savedImage
         }
+    }
+    
+    private func usingLimit() {
+        let count = self.transactionMonths.reduce(0) { acc, num in
+            if num.income == "true" {
+                acc + (Int(num.money) ?? 0)
+            } else {
+                acc - (Int(num.money) ?? 0)
+            }
+        }
+        
+        self.contentView.usignLimit.textLimit.text = "\(count)"
+        limitCreate()
+    }
+    
+    private func limitCreate() {
+        let count = self.transactionLimit.reduce(0) { acc, num in
+            acc + (Int(num.money) ?? 0)
+        }
+        
+        self.contentView.availableLimit.textLimit.text = "\(count)"
     }
     
     private func setup() {
