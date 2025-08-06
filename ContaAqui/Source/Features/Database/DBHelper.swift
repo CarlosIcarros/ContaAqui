@@ -150,6 +150,31 @@ class DBHelper {
         return transactionMonths
     }
     
+    
+    func fetchTrancastionLimit() -> [TransactionLimit] {
+        let fetchQuery = "SELECT * FROM LimitMonth"
+        var statement: OpaquePointer?
+        var transactionLimit: [TransactionLimit] = []
+        
+        if sqlite3_prepare(db, fetchQuery, -1, &statement, nil) == SQLITE_OK {
+                    
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let id = Int(sqlite3_column_int(statement, 0))
+                let date = sqlite3_column_text(statement, 1).flatMap { String(cString: $0) } ?? "Unknown"
+                let money = sqlite3_column_text(statement, 2).flatMap { String(cString: $0) } ?? "Unknown"
+                
+                
+                transactionLimit.append(TransactionLimit(id: id, date: date, money: money))
+            }
+        } else {
+            print("SELECT statement falhou")
+        }
+        
+        sqlite3_finalize(statement)
+        
+        return transactionLimit
+    }
+    
     func deleteTransactionMonth(byId id: Int) {
         let deleteQuery = "DELETE FROM TransactionMonth WHERE id = ?"
         

@@ -170,7 +170,7 @@ extension HomeViewController: UITableViewDelegate {
         guard let celula = tableView.dequeueReusableCell(withIdentifier: TransactionMonthCell.identifier, for: indexPath) as? TransactionMonthCell else {
             return UITableViewCell()
         }
-        let item = transactionMonths[indexPath.section ]
+        let item = transactionMonths[indexPath.section]
         celula.configure(with: item)
         celula.backgroundColor = Colors.gray100
         celula.onDelete = { [weak self] in
@@ -181,10 +181,5 @@ extension HomeViewController: UITableViewDelegate {
             }
         }
         return celula
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("clicou no \(transactionMonths[indexPath.row])")
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

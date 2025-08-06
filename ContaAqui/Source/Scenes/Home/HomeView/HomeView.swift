@@ -185,7 +185,7 @@ class HomeView: UIView {
     
     public let table: TransactionMonthTable = {
         let table = TransactionMonthTable()
-        table.backgroundColor = Colors.gray100
+        table.backgroundColor = .clear
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
@@ -321,9 +321,8 @@ class HomeView: UIView {
             launchDescription.isHidden = true
             launchImage.isHidden = true
             table.isHidden = false
-            
+            table.backgroundColor = Colors.gray100
             NSLayoutConstraint.activate([
-                launchContainer.bottomAnchor.constraint(equalTo: fabButton.topAnchor, constant: -20),
                 table.topAnchor.constraint(equalTo: launchdivider.bottomAnchor, constant: 15),
                 table.bottomAnchor.constraint(equalTo: launchContainer.bottomAnchor, constant: -24),
                 table.leadingAnchor.constraint(equalTo: launchContainer.leadingAnchor, constant: 15),
@@ -394,6 +393,7 @@ class HomeView: UIView {
             launchContainer.topAnchor.constraint(equalTo: containerBudget.bottomAnchor, constant: 20),
             launchContainer.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             launchContainer.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+            launchContainer.bottomAnchor.constraint(equalTo: fabButton.topAnchor, constant: -20),
             
             launchText.topAnchor.constraint(equalTo: launchContainer.topAnchor, constant: 15),
             launchText.leadingAnchor.constraint(equalTo: launchContainer.leadingAnchor, constant: 20),
