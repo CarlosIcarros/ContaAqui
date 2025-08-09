@@ -67,7 +67,7 @@ class HomeView: UIView {
         return button
     }()
     
-    private let selectionMonths: SelectionMonths = {
+    let selectionMonths: SelectionMonths = {
         let view = SelectionMonths()
         view.translatesAutoresizingMaskIntoConstraints = false
         

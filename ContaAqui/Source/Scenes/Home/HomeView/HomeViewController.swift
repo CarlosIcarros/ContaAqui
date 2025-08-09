@@ -14,6 +14,7 @@ class HomeViewController: UIViewController {
     let viewModel = HomeFlowViewModel()
     private var transactionMonths: [TransactionMonth] = []
     private var transactionLimit: [TransactionLimit] = []
+    private var currentMonth: String = "AGO" 
     
     init(contentView: HomeView, flowDelegate: HomeFlowDelegate) {
         self.contentView = contentView
@@ -34,7 +35,8 @@ class HomeViewController: UIViewController {
         setup()
         buttonConfigTapped()
         checkExistData()
-        loadData()
+        setupMonthSelection()
+        loadDataForCurrentMonth()
         usingLimit()
     }
     
@@ -45,9 +47,20 @@ class HomeViewController: UIViewController {
         updateUI()
     }
     
+    func loadDataForCurrentMonth() {
+        let monthYear = viewModel.getMonthYearString(from: currentMonth)
+        transactionMonths = viewModel.fetchDataByMonth(monthYear)
+        transactionLimit = viewModel.fetchLimitByMonth(monthYear)
+        updateUI()
+        usingLimit() 
+    }
+    
+    func setupMonthSelection() {
+        contentView.selectionMonths.delegate = self
+    }
+    
     func reloadData() {
-        loadData()
-        usingLimit()
+        loadDataForCurrentMonth()
     }
     
     func configureTable() {
@@ -230,5 +243,13 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("clicou no \(transactionMonths[indexPath.row])")
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension HomeViewController: SelectionMonthsDelegate {
+    func monthDidChange(to month: String) {
+        currentMonth = month
+        loadDataForCurrentMonth()
+
     }
 }

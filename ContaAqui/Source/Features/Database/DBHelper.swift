@@ -138,7 +138,7 @@ class DBHelper {
                 let date = sqlite3_column_text(statement, 4).flatMap { String(cString: $0) } ?? "Unknown"
                 let incomeValue = sqlite3_column_int(statement, 5)
                 let income = incomeValue == 1 ? "true" : "false"
-                
+            
                 transactionMonths.append(TransactionMonth(id: id, title: title, category: category, money: money, date: date, income: income))
             }
         } else {
@@ -148,6 +148,63 @@ class DBHelper {
         sqlite3_finalize(statement)
         
         return transactionMonths
+    }
+    
+    // MARK: - Filtered Methods by Month
+    func fetchTransactionsByMonth(_ monthYear: String) -> [TransactionMonth] {
+        let fetchQuery = "SELECT * FROM TransactionMonth WHERE date LIKE ?"
+        var statement: OpaquePointer?
+        var transactionMonths: [TransactionMonth] = []
+        
+        let searchPattern = "%/\(monthYear)"
+        
+        if sqlite3_prepare(db, fetchQuery, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_text(statement, 1, (searchPattern as NSString).utf8String, -1, nil)
+                    
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let id = Int(sqlite3_column_int(statement, 0))
+                let title = sqlite3_column_text(statement, 1).flatMap { String(cString: $0) } ?? "Unknown"
+                let category = sqlite3_column_text(statement, 2).flatMap { String(cString: $0) } ?? "Unknown"
+                let money = sqlite3_column_text(statement, 3).flatMap { String(cString: $0) } ?? "Unknown"
+                let date = sqlite3_column_text(statement, 4).flatMap { String(cString: $0) } ?? "Unknown"
+                let incomeValue = sqlite3_column_int(statement, 5)
+                let income = incomeValue == 1 ? "true" : "false"
+                
+                transactionMonths.append(TransactionMonth(id: id, title: title, category: category, money: money, date: date, income: income))
+            }
+        } else {
+            print("SELECT filtered statement falhou")
+        }
+        
+        sqlite3_finalize(statement)
+        
+        return transactionMonths
+    }
+    
+    func fetchLimitByMonth(_ monthYear: String) -> [TransactionLimit] {
+        let fetchQuery = "SELECT * FROM LimitMonth WHERE date = ?"
+        var statement: OpaquePointer?
+        var transactionLimit: [TransactionLimit] = []
+        
+        if sqlite3_prepare(db, fetchQuery, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_text(statement, 1, (monthYear as NSString).utf8String, -1, nil)
+                    
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let id = Int(sqlite3_column_int(statement, 0))
+                let date = sqlite3_column_text(statement, 1).flatMap { String(cString: $0) } ?? "Unknown"
+                let money = sqlite3_column_text(statement, 2).flatMap { String(cString: $0) } ?? "Unknown"
+                
+                print("💰 Limite encontrado: \(money) - Data: \(date)")
+                transactionLimit.append(TransactionLimit(id: id, date: date, money: money))
+            }
+        } else {
+            print("SELECT limit filtered statement falhou")
+        }
+        
+        sqlite3_finalize(statement)
+        
+        print("📈 Total de limites encontrados para \(monthYear): \(transactionLimit.count)")
+        return transactionLimit
     }
     
     

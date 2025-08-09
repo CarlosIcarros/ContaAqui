@@ -8,7 +8,12 @@
 import Foundation
 import UIKit
 
+protocol SelectionMonthsDelegate: AnyObject {
+    func monthDidChange(to month: String)
+}
+
 class SelectionMonths: UIView {
+    weak var delegate: SelectionMonthsDelegate?
     private let months = [ "JUN", "JUL", "AGO", "SET", "OUT"]
     private var selectedMonth: String
 
@@ -80,6 +85,10 @@ class SelectionMonths: UIView {
         ])
 
         setupMonths()
+        
+        // Configurar ações das setas
+        leftArrowButton.addTarget(self, action: #selector(leftArrowTapped), for: .touchUpInside)
+        rightArrowButton.addTarget(self, action: #selector(rightArrowTapped), for: .touchUpInside)
     }
 
     private func setupMonths() {
@@ -127,7 +136,37 @@ class SelectionMonths: UIView {
             label.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
         }
 
+        // Adicionar gesto de tap
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(monthTapped(_:)))
+        container.addGestureRecognizer(tapGesture)
+        container.tag = months.firstIndex(of: month) ?? 0
+
         return container
+    }
+    
+    // MARK: - Actions
+    @objc private func leftArrowTapped() {
+        guard let currentIndex = months.firstIndex(of: selectedMonth) else { return }
+        let newIndex = max(0, currentIndex - 1)
+        let newMonth = months[newIndex]
+        updateSelectedMonth(to: newMonth)
+        delegate?.monthDidChange(to: newMonth)
+    }
+    
+    @objc private func rightArrowTapped() {
+        guard let currentIndex = months.firstIndex(of: selectedMonth) else { return }
+        let newIndex = min(months.count - 1, currentIndex + 1)
+        let newMonth = months[newIndex]
+        updateSelectedMonth(to: newMonth)
+        delegate?.monthDidChange(to: newMonth)
+    }
+    
+    @objc private func monthTapped(_ gesture: UITapGestureRecognizer) {
+        guard let tappedView = gesture.view else { return }
+        let monthIndex = tappedView.tag
+        let newMonth = months[monthIndex]
+        updateSelectedMonth(to: newMonth)
+        delegate?.monthDidChange(to: newMonth)
     }
 
     // MARK: - Public API
