@@ -75,23 +75,40 @@ class HomeViewController: UIViewController {
     
     private func usingLimit() {
         let count = self.transactionMonths.reduce(0) { acc, num in
-            if num.income == "true" {
+            if num.income != "true" {
                 acc + (Int(num.money) ?? 0)
             } else {
                 acc - (Int(num.money) ?? 0)
             }
         }
         
+        if (count == 0) {
+            self.contentView.limitButton.isHidden = false
+            self.contentView.textAvailiableSum.isHidden = true
+        } else {
+            self.contentView.textAvailiableSum.isHidden = false
+            self.contentView.limitButton.isHidden = true
+        }
+        
         self.contentView.usignLimit.textLimit.text = "\(count)"
-        limitCreate()
+        let limit = limitCreate()
+        
+        let sumValue = limit - count
+        let percentage = Float(count) / Float(limit)
+
+        self.contentView.textAvailiableSum.text = "R$ \(sumValue)"
+        self.contentView.progressBar.progress = percentage
+        
     }
     
-    private func limitCreate() {
+    private func limitCreate() -> Int {
         let count = self.transactionLimit.reduce(0) { acc, num in
             acc + (Int(num.money) ?? 0)
         }
         
         self.contentView.availableLimit.textLimit.text = "\(count)"
+        
+        return count
     }
     
     private func setup() {
@@ -113,7 +130,7 @@ class HomeViewController: UIViewController {
     private func buttonConfigTapped() {
         self.contentView.logoutButton.addTarget(self, action: #selector(logoutAction), for: .touchUpInside)
         self.contentView.configIcon.addTarget(self, action: #selector(configIconAction), for: .touchUpInside)
-        
+        self.contentView.limitButton.addTarget(self, action: #selector(configIconAction), for: .touchUpInside)
         
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openBottomSheet))

@@ -139,6 +139,16 @@ class HomeView: UIView {
         return label
     }()
     
+    public let textAvailiableSum: UILabel = {
+        let label = UILabel()
+        label.text = "R$ 1.256,00"
+        label.textColor = Colors.gray100
+        label.font = Text.titleLgBold
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let divider: Divider = {
         let view = Divider()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -146,7 +156,7 @@ class HomeView: UIView {
         return view
     }()
     
-    private let limitButton: UIButton = {
+    public let limitButton: UIButton = {
         let button = UIButton(type: .system)
         
         button.setTitle("Definir orçamento", for: .normal)
@@ -257,6 +267,16 @@ class HomeView: UIView {
         return button
     }()
     
+    public let progressBar: UIProgressView = {
+       let progress = UIProgressView()
+        progress.progress = 0.5
+        progress.tintColor = Colors.magenta
+        progress.trackTintColor = Colors.gray600
+        
+        progress.translatesAutoresizingMaskIntoConstraints = false
+        return progress
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -281,10 +301,12 @@ class HomeView: UIView {
         containerBudget.addSubview(monthBudget)
         containerBudget.addSubview(configIcon)
         containerBudget.addSubview(textAvailiableBudget)
+        containerBudget.addSubview(textAvailiableSum)
         containerBudget.addSubview(divider)
         containerBudget.addSubview(limitButton)
         containerBudget.addSubview(usignLimit)
         containerBudget.addSubview(availableLimit)
+        containerBudget.addSubview(progressBar)
         
         addSubview(launchContainer)
         launchContainer.addSubview(launchText)
@@ -383,12 +405,22 @@ class HomeView: UIView {
             limitButton.leadingAnchor.constraint(equalTo: containerBudget.leadingAnchor, constant: 24),
             limitButton.heightAnchor.constraint(equalToConstant: 40),
             
+            textAvailiableSum.topAnchor.constraint(equalTo: textAvailiableBudget.bottomAnchor, constant: 12),
+            textAvailiableSum.trailingAnchor.constraint(equalTo: containerBudget.trailingAnchor, constant: -24),
+            textAvailiableSum.leadingAnchor.constraint(equalTo: containerBudget.leadingAnchor, constant: 24),
+            textAvailiableSum.heightAnchor.constraint(equalToConstant: 40),
+            
             usignLimit.topAnchor.constraint(equalTo: limitButton.bottomAnchor, constant: 24),
             usignLimit.leadingAnchor.constraint(equalTo: containerBudget.leadingAnchor, constant: 24),
             usignLimit.widthAnchor.constraint(equalToConstant: 60),
             
             availableLimit.topAnchor.constraint(equalTo: limitButton.bottomAnchor, constant: 24),
             availableLimit.trailingAnchor.constraint(equalTo: containerBudget.trailingAnchor, constant: -24),
+            
+            progressBar.bottomAnchor.constraint(equalTo: containerBudget.bottomAnchor),
+            progressBar.trailingAnchor.constraint(equalTo: containerBudget.trailingAnchor),
+            progressBar.leadingAnchor.constraint(equalTo: containerBudget.leadingAnchor),
+            progressBar.heightAnchor.constraint(equalToConstant: 8),
             
             launchContainer.topAnchor.constraint(equalTo: containerBudget.bottomAnchor, constant: 20),
             launchContainer.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
@@ -420,6 +452,8 @@ class HomeView: UIView {
             fabButton.heightAnchor.constraint(equalToConstant: 48),
             fabButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             fabButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -24)
+            
+            
         ])
     }
 }

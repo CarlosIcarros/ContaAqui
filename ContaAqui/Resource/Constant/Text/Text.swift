@@ -10,6 +10,7 @@ import UIKit
 
 public struct Text {
     static let titleLg = UIFont.systemFont(ofSize: 28, weight: .heavy)
+    static let titleLgBold = UIFont.systemFont(ofSize: 28, weight: .bold)
     static let titleMd = UIFont.systemFont(ofSize: 16, weight: .bold)
     static let titleSm = UIFont.systemFont(ofSize: 14, weight: .regular)
     static let titleSmBold = UIFont.boldSystemFont(ofSize: 14)
