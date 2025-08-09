@@ -11,6 +11,7 @@ import UIKit
 class Input: UIView, UITextFieldDelegate {
     private var isEmailField = false
     private var isShowPassword: Bool = false
+    private var dateFormat: String?
     
     init(placeHolder: String) {
         super.init(frame: .zero)
@@ -45,6 +46,15 @@ class Input: UIView, UITextFieldDelegate {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = placeHolder
+
+        // Detectar se é campo de data pelo ícone e placeholder
+        if iconName == "calendar" {
+            if placeHolder.count == 7 { // "00/0000"
+                dateFormat = "##/####"
+            } else { 
+                dateFormat = "##/##/####"
+            }
+        }
 
         let iconImageView = UIImageView(image: UIImage(systemName: iconName))
         iconImageView.tintColor = .gray
@@ -152,6 +162,60 @@ extension Input {
         } else {
             textField.layer.borderColor = Colors.gray200.cgColor // ✅ ou padrão
         }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // Aplicar formatação de data se necessário
+        if let dateFormat = dateFormat {
+            return formatDateInput(textField: textField, range: range, replacementString: string, format: dateFormat)
+        }
+        
+        return true
+    }
+    
+    private func formatDateInput(textField: UITextField, range: NSRange, replacementString string: String, format: String) -> Bool {
+        // Permitir apenas números
+        if !string.isEmpty && !CharacterSet.decimalDigits.contains(UnicodeScalar(string)!) {
+            return false
+        }
+        
+        guard let text = textField.text else { return false }
+        let newText = (text as NSString).replacingCharacters(in: range, with: string)
+        
+        // Remover caracteres não numéricos
+        let numbersOnly = newText.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+        
+        // Aplicar máscara baseada no formato
+        let formatted = applyMask(to: numbersOnly, format: format)
+        
+        textField.text = formatted
+        
+        // Definir posição do cursor
+        if let newPosition = textField.position(from: textField.beginningOfDocument, offset: formatted.count) {
+            textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
+        }
+        
+        return false
+    }
+    
+    private func applyMask(to text: String, format: String) -> String {
+        var result = ""
+        var textIndex = text.startIndex
+        
+        for char in format {
+            if textIndex >= text.endIndex {
+                break
+            }
+            
+            if char == "#" {
+                result.append(text[textIndex])
+                textIndex = text.index(after: textIndex)
+            } else {
+                result.append(char)
+            }
+        }
+        
+        return result
     }
     
     private func isValidEmail(_ email: String) -> Bool {
