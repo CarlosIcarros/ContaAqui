@@ -28,6 +28,7 @@ class BottomSheetViewController: UIViewController {
         super.viewDidLoad()
         setup()
         configButton()
+        resetButtonSelection()
     }
     
     func agendarNotificacao() {
@@ -92,16 +93,31 @@ class BottomSheetViewController: UIViewController {
         agendarNotificacao()
         self.flowDelegate.didAddTransaction()
         self.flowDelegate.closeModal()
+        
+        // Resetar seleção após adicionar
+        resetButtonSelection()
+    }
+    
+    private func resetButtonSelection() {
+        contentView.incomeButton.setSelected(false)
+        contentView.outcomeButton.setSelected(false)
+        valueSelect = ""
     }
     
     @objc
     private func selectButtonIncome() {
         valueSelect = "income"
+        // Atualizar visual dos botões
+        contentView.incomeButton.setSelected(true)
+        contentView.outcomeButton.setSelected(false)
     }
     
     @objc
     private func selectButtonOutcome() {
         valueSelect = "outcome"
+        // Atualizar visual dos botões
+        contentView.incomeButton.setSelected(false)
+        contentView.outcomeButton.setSelected(true)
     }
     
     private func setup() {
